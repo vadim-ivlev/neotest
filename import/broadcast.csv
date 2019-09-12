@@ -1,4 +1,4 @@
-id:ID,title,time_created,time_begin,is_ended,show_date,show_time,show_main_page,link_article,link_img,groups_create,is_diary,diary_author
+id,title,time_created,time_begin,is_ended,show_date,show_time,show_main_page,link_article,link_img,groups_create,is_diary,diary_author
 321,Финал конкурса Мисс Россия-2017,1492117200,1492277400,1,0,1,0,http://rg.ru/2017/04/15/online-miss-russia-2017.html,"",0,0,""
 322,Военный парад на Красной площади,1493931600,1494312000,1,0,1,0,http://rg.ru/2017/05/09/onlajn-transliaciia-voennogo-parada-na-krasnoj-ploshchadi.html,"",0,0,""
 323,Бессмертный полк,1494277200,1496329080,1,0,1,0,http://rg.ru/,"",0,0,""
