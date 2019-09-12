@@ -3,14 +3,13 @@
 echo 'гасим бд'
 docker-compose down
 
-# удаляем файлы бд, и чистим загрузки
-# sudo rm -rf pgdata uploads/* uploads_temp/*
+echo 'удаляем файлы бд'
+sudo rm -rf data
 
 # поднимаем бд
 docker-compose up -d
 sleep 1
 
-# запускаем приложение
-#go run main.go -serve 7777
+echo 'Open http://localhost:7474/'
 
 
