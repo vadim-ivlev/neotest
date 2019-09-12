@@ -1,7 +1,18 @@
-// Load onlinebc CSV files
+// Загрузить onlinebc CSV из интернета
 
-//clear all
-match (n) delete n;
+
+
+// Удалить все связи
+MATCH ()-[r]->() 
+DELETE r
+;
+
+
+// Удалить все узлы
+match (n) delete n
+;
+
+
 
 // load broadcast.csv
 LOAD CSV WITH HEADERS FROM "https://gitlab.com/vadim-ivlev/neotest/raw/master/import/broadcast.csv" AS o CREATE (:Broadcast {
@@ -34,7 +45,6 @@ LOAD CSV WITH HEADERS FROM "https://gitlab.com/vadim-ivlev/neotest/raw/master/im
     link        : o.link,
     has_big_img : toInteger(o.has_big_img),
     author      : o.author
-
 });
 
 
