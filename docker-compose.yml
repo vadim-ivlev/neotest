@@ -11,6 +11,7 @@ services:
       - 7687:7687
     volumes:
       - "./data:/data"
+      - ./scripts:/scripts
       - "./import:${NEO4J_HOME}/import"
     environment:
       NEO4J_AUTH: none
