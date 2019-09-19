@@ -40,4 +40,57 @@ b {
 limit 3
 ;
 
+//----------------------------------------------------
+match (b:Broadcast{id:354}) -- (q:Question)--(a:Answer)
+//where q.id = 23952 
+with b, q, a 
+order by a.id
 
+with b, q, collect(a{.*}) as lst, count(a) as numa
+order by q.id
+
+with b, collect(q{.*, answers:lst} ) as questions, count(q) as numq
+
+return 
+b {.*, _num_questions:numq, posts:questions }
+limit 3
+;
+
+// ---------------------------------------------------
+match (b:Broadcast{id:354})--(q:Question)--(a:Answer)
+with b, q, collect(a{.*}) as lst, count(a) as num
+
+with b, collect(q{.*, answers:lst} ) as questions, count(q) as numq
+
+return 
+b {.*, _num_questions:numq, posts:questions }
+limit 3
+;
+
+// Посты без ответов
+match (b:Broadcast{id:354})-[:ASK]-(q:Post)
+where not (q)<-[:REPLY]-()
+return b,q
+// вариант 2
+match (b:Broadcast{id:354})-[:ASK]-(q:Post)
+where not "Question" in labels(q)
+return b,q, labels(q)
+
+
+
+///////////////////////////////////////////////////////
+
+match (b:Broadcast{id:354})-[:ASK]-(q:Post)
+where not (q)<-[:REPLY]-()
+return b,q, null as lst, 0 as num
+
+union
+
+match (b:Broadcast{id:354})--(q:Question)--(a:Answer)
+return b, q, collect(a{.*}) as lst, count(a) as num
+
+with b, collect(q{.*, answers:lst} ) as questions, count(q) as numq
+
+return 
+b {.*, _num_questions:numq, posts:questions }
+limit 3
