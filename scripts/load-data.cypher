@@ -33,6 +33,7 @@ LOAD CSV WITH HEADERS FROM "https://gitlab.com/vadim-ivlev/neotest/raw/master/im
   
 });
 
+return "broadcasts loaded" as ``;
 
 // load post.csv
 LOAD CSV WITH HEADERS FROM "https://gitlab.com/vadim-ivlev/neotest/raw/master/import/post.csv" AS o CREATE (:Post {
@@ -47,6 +48,7 @@ LOAD CSV WITH HEADERS FROM "https://gitlab.com/vadim-ivlev/neotest/raw/master/im
     author      : o.author
 });
 
+return "posts loaded" as ``;
 
 // load image.csv
 LOAD CSV WITH HEADERS FROM "https://gitlab.com/vadim-ivlev/neotest/raw/master/import/image.csv" AS o CREATE (:Image {
@@ -56,3 +58,5 @@ LOAD CSV WITH HEADERS FROM "https://gitlab.com/vadim-ivlev/neotest/raw/master/im
     thumbs  : o.thumbs,
     source  : o.source
 });
+
+return "images loaded" as ``;

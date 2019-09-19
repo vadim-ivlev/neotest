@@ -1,70 +1,39 @@
-// Наладить ссылки
+// Наладить ссылки между существующими узлами
 
 
-// Трансляция 354
-match (b:Broadcast{id:354}) return b
-;
-
-
-// Удалить все связи
-MATCH ()-[r]->() 
-DELETE r
-;
-
-// привязать посты к трансляциям
-// MATCH (b:Broadcast),(p:Post) WHERE  b.id = p.id_broadcast
-// CREATE (b)<-[r:QUESTION_AT]-(p)
-// ;
-
+// Привязать посты, которые не являются ответами к трансляциям
 MATCH (b:Broadcast ),(p:Post) 
 WHERE b.id = p.id_broadcast AND p.id_parent IS NULL
-CREATE (b)<-[r:QUESTION_AT]-(p)
+CREATE (b)<-[r:ASK]-(p)
 // RETURN b.id, p.id,  p.id_parent
 // ORDER BY p.id
 ;
 
-// Привязать и пометить ответы 
-MATCH (p:Post),(a:Post) WHERE  p.id = a.id_parent
-CREATE (p)<-[r:ANSWER_TO]-(a)
-SET a:Answer, p:Answered
+return "Посты привязаны" as message;
+
+// Связать вопросы с ответами
+MATCH (q:Post),(a:Post) WHERE  q.id = a.id_parent
+CREATE (q)<-[r:REPLY]-(a)
+SET q:Question, a:Answer
 ;
 
-// check
-match (b:Broadcast {id:354}) return (b)-[*1..2]-();
+return "Ответы привязаны" as message;
 
-// create next relationships
+
+// Упорядочить ответы
 match (a1:Answer),(a2:Answer)
 where a1.id = a2.id-1
 create (a1)-[:NEXT]->(a2)
 ;
 
-
-// show some answers with links
-match (b:Broadcast{id:354})--(p)--(a)
-with b, p, count(a) as num
-where num >3
-return (b)--(p)--(:Answer)
-
-
-
-
-
+return "ответы упорядочены" as message;
 
 // привязать изображения к постам
-MATCH (p:Post),(i:Image) WHERE  p.id = i.post_id
-CREATE (p)<-[r:picture]-(i)
+MATCH (p:Post),(i:Image) 
+WHERE  p.id = i.post_id
+CREATE (p)<-[r:ИЛЛЮСТРИРУЕТ]-(i)
+set p:Illustrated
 ;
 
-// --------------------------------------------------------------------
-
-
-// Отвязать ответы от трансляции
-MATCH (b)<-[r:QUESTION_AT]-(p)<-[:ANSWER_TO]-(a)
-DELETE r
-;
-
-// Отвязать ответы от трансляции 2
-MATCH (b)<-[r:QUESTION_AT]-(a:Answer)
-DELETE r
-;
+return "Изображения привязаны" as message;
 
